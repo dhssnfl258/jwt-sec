@@ -15,7 +15,7 @@ public class Account {
     private Long id;
     private String title;
     private String amount;
-
+    private String fileUrl;
     @Enumerated(EnumType.STRING)
     private Type type;
 
