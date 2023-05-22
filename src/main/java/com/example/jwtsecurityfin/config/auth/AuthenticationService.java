@@ -2,9 +2,9 @@ package com.example.jwtsecurityfin.config.auth;
 
 
 import com.example.jwtsecurityfin.config.JwtService;
-import com.example.jwtsecurityfin.user.Role;
-import com.example.jwtsecurityfin.user.User;
-import com.example.jwtsecurityfin.user.UserRepository;
+import com.example.jwtsecurityfin.domain.user.Role;
+import com.example.jwtsecurityfin.domain.user.User;
+import com.example.jwtsecurityfin.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,6 +34,20 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    public AuthenticationResponse registerV2(RegisterRequest request) {
+        var user = User.builder()
+            .name(request.getName())
+            .email(request.getEmail())
+            .role(Role.USER)
+            .build();
+        repository.save(user);
+        // jwt token create
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+            .token(jwtToken)
+            .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

@@ -1,4 +1,4 @@
-package com.example.jwtsecurityfin.demo;
+package com.example.jwtsecurityfin.service.budget;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -25,7 +25,7 @@ public class FileUploadService {
 
     public String uploadFile(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String fileUrl = "https://tribillbucket.s3.ap-northeast-2.amazonaws.com/" + fileName;
+        String fileUrl = "" + fileName;
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(file.getContentType());
         metadata.setContentLength(file.getSize());

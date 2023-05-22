@@ -1,4 +1,4 @@
-package com.example.jwtsecurityfin.user;
+package com.example.jwtsecurityfin.domain.user;
 
 
 import jakarta.persistence.*;

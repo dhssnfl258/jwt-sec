@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -13,9 +13,9 @@ spring:
 cloud:
   aws:
     s3:
-      bucket: tribillbucket
+      bucket:
     stack.auto: false
     region.static: ap-northeast-2
     credentials:
-      accessKey: AKIAWSDJ74GU7EMSBQVN
-      secretKey: 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
+      accessKey:
+      secretKey:

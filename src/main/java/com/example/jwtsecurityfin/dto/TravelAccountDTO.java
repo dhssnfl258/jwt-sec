@@ -1,4 +1,4 @@
-package com.example.jwtsecurityfin.domain.dto;
+package com.example.jwtsecurityfin.dto;
 
 import lombok.Data;
 
@@ -7,7 +7,5 @@ public class TravelAccountDTO {
 
     private String trip;
     private String title;
-
-
 
 }

@@ -1,32 +1,48 @@
 package com.example.jwtsecurityfin.demo;
 
 
-import com.example.jwtsecurityfin.domain.account.Account;
-import com.example.jwtsecurityfin.domain.account.AccountRepository;
-import com.example.jwtsecurityfin.domain.dto.TravelAccountDTO;
+import com.example.jwtsecurityfin.domain.account.Budget;
+import com.example.jwtsecurityfin.domain.account.BudgetRepository;
+import com.example.jwtsecurityfin.domain.currency.NationCode;
+import com.example.jwtsecurityfin.domain.currency.NationCodeRepository;
+import com.example.jwtsecurityfin.dto.TravelAccountDTO;
 import com.example.jwtsecurityfin.domain.travel.Travel;
 import com.example.jwtsecurityfin.domain.travel.TravelRepository;
-import com.example.jwtsecurityfin.user.User;
-import com.example.jwtsecurityfin.user.UserRepository;
+import com.example.jwtsecurityfin.domain.user.User;
+import com.example.jwtsecurityfin.domain.user.UserRepository;
+import com.example.jwtsecurityfin.dto.TravelRequestDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+/*
+ *  this is demo controller
+ *
+ */
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/demo-controller")
 public class DemoController {
     private final UserRepository userRepository;
     private final TravelRepository travelRepository;
-    private final AccountRepository accountRepository;
+    private final BudgetRepository budgetRepository;
+    private final NationCodeRepository nationCodeRepository;
 
-    public DemoController(UserRepository userRepository, TravelRepository travelRepository, AccountRepository accountRepository) {
+    @Autowired
+    public DemoController(UserRepository userRepository, TravelRepository travelRepository,
+                          BudgetRepository budgetRepository,
+                          NationCodeRepository nationCodeRepository) {
         this.userRepository = userRepository;
         this.travelRepository = travelRepository;
-        this.accountRepository = accountRepository;
+        this.budgetRepository = budgetRepository;
+        this.nationCodeRepository = nationCodeRepository;
     }
 
     @GetMapping
@@ -110,10 +126,10 @@ public class DemoController {
 
 
     @PostMapping("/user/travel/account/register")
-    public Account registerAccount(Authentication authentication, @RequestBody TravelAccountDTO travelAccountDTO){
+    public Budget registerAccount(Authentication authentication, @RequestBody TravelAccountDTO travelAccountDTO){
         log.info("DTO::{} and {}", travelAccountDTO.getTrip(), travelAccountDTO.getTitle());
-        Account account = new Account();
-        account.setTitle(travelAccountDTO.getTitle());
+        Budget budget = new Budget();
+        budget.setTitle(travelAccountDTO.getTitle());
         //exception check it plz
 //        account.setTravel(travelRepository.findByTitle(travelAccount.getTravelName()).get());
 //        accountRepository.save(account);
@@ -124,11 +140,29 @@ public class DemoController {
 
 
     @GetMapping("/user/travel/account")
-    public List<Account> showAccount(Authentication authentication, @RequestBody Travel travel){
+    public List<Budget> showAccount(Authentication authentication, @RequestBody Travel travel){
        log.info("user authentication: {}, travel info : {}", authentication.getName() , travel.getTitle());
-        return accountRepository.findAllByTravel(travel);
+        return budgetRepository.findAllByTravel(travel);
     }
 
+    @GetMapping("/user/travel/test")
+    public Travel test(Authentication authentication, @RequestBody TravelRequestDTO travelRequestDTO){
+        log.info("user authentication: {}, travel info : {}", authentication.getName() , travelRequestDTO.getNation());
+        Travel travel = new Travel();
+        travel.setAmount(travelRequestDTO.getMoney());
+        travel.setStartDate(travelRequestDTO.getStartDate());
+        travel.setEndDate(travelRequestDTO.getEndDate());
+        ArrayList<String> nation = travelRequestDTO.getNation();
+        List<NationCode> nc = new ArrayList<>();
+        for (String s : nation) {
+            Optional<NationCode> byNation = nationCodeRepository.findByNation(s);
+            NationCode nationCode = byNation.get();
+            nc.add(nationCode);
+        }
+        travel.setNationCodes(nc);
+        travelRepository.save(travel);
+        return travel;
+    }
 
 
 }

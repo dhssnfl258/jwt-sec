@@ -1,20 +1,27 @@
 package com.example.jwtsecurityfin.domain.account;
 
 import com.example.jwtsecurityfin.domain.travel.Travel;
-import com.example.jwtsecurityfin.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
 @Entity
-public class Account {
+public class Budget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private Long id;
     private String title;
-    private String amount;
+    private String Money;
+    private String nation;
+    private Double nationMoney;
+    private LocalDateTime registerTime;
     private String fileUrl;
     @Enumerated(EnumType.STRING)
     private Type type;

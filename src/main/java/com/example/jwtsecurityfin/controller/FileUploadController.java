@@ -1,4 +1,4 @@
-package com.example.jwtsecurityfin.demo;
+package com.example.jwtsecurityfin.controller;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -14,6 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+
+/**
+ * file upload controller
+ *  s3 bucket Upload test
+ */
 @RestController
 @RequestMapping("/upload")
 @RequiredArgsConstructor

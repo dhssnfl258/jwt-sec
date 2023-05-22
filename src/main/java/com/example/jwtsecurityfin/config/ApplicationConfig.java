@@ -1,6 +1,6 @@
 package com.example.jwtsecurityfin.config;
 
-import com.example.jwtsecurityfin.user.UserRepository;
+import com.example.jwtsecurityfin.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
